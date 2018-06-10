@@ -1,0 +1,130 @@
+.WB_cardwrap {
+    margin: 0 0 10px 0;
+    box-shadow: 0 0 2px rgba(0,0,0,0.2);
+    border-radius: 2px;
+}
+
+.nameBox{
+    height: 16px;
+    line-height: 16px;
+    padding-top: 5px;
+    text-align: center;
+}
+
+.S_bg2{
+    background-color: #fff;
+}
+
+.PCD_counter {
+    overflow: hidden;
+}
+
+.WB_innerwrap {
+    width: 100%;
+    padding: 12px 0;
+}
+
+.tb_counter {
+    width: 100%;
+    margin-left: -1px;
+    line-height: 14px;
+    text-align: center;
+    table-layout: fixed;
+}
+
+table {
+    display: table;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-color: grey;
+}
+
+.PCD_counter table td {
+    border-left-width: 1px;
+    border-left-style: solid;
+}
+
+.S_line1{
+    border-color: #d9d9d9;
+}
+
+.PCD_counter table td strong {
+    display: block;
+    margin: 2px 0 6px 0;
+    font-family: Tahoma;
+    font-weight: 400;
+}
+
+.S_txt2{
+    color: #808080;
+    text-decoration: none;
+}
+
+.W_f14 {
+    font-size: 14px;
+}
+
+.pf_item {
+	font-size: 13px;
+	line-height: 30px;
+	margin-bottom: 5px;
+	position: relative;
+}
+
+.clearfix {
+  display: block;
+}
+
+.pf_item .label {
+    float: left;
+    margin-left: 20px;
+	width: 53px;
+	*width: 59px;
+	text-align: right;
+	white-space: nowrap;
+}
+
+.S_txt2{
+  color: #808080;
+}
+
+.pf_item .con {
+  margin-left: 87px;
+  padding: 0 10px;
+  word-wrap: break-word;
+}
+
+.S_line1{
+    border-color: #d9d9d9;
+}
+
+.S_txt1{
+    color: #333;
+    text-decoration: none;
+}
+
+.WB_cardmore {
+    display: block;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    border-top-style: solid;
+    border-top-width: 1px;
+}
+
+.clearfix {
+    display: block;
+}
+
+.WB_cardmore .W_ficon {
+    margin-left: 2px;
+}
+
+.S_ficon{
+    color: #696e78;
+}
+
+.ficon_arrow_right {
+    vertical-align: middle;
+}
+

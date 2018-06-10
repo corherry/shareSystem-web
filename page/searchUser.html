@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>基于 layui 的极简社区页面模版</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="fly,layui,前端社区">
+    <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
+    <link rel="stylesheet" href="../resources/layui/css/layui.css">
+    <link rel="stylesheet" href="../css/global.css">
+
+</head>
+
+<body>
+
+    <div class="fly-header layui-bg-black">
+        <div class="layui-container">
+            <a class="fly-logo" href="index.html">
+                <img src="../images/logo-min.png" alt="layui">
+            </a>
+
+            <div class="layui-form component">
+                <input type="text" placeholder="搜索帖子或用户" value="" class="layui-input" id="search_text">
+            </div>
+
+            <div class="layui-form search">
+                <select name="searchType" lay-verify="required" id="search_select">
+                    <option value="1" select="">帖子</option>
+                    <option value="2">用户</option>
+                </select>
+            </div>
+
+            <div class="search-icon">
+                <span class="fly-search">
+                    <i class="layui-icon" onclick="search()"></i>
+                </span>
+            </div>
+
+
+            <ul class="layui-nav fly-nav-user">
+
+                <li class="layui-nav-item">
+                    <a class="fly-nav-avatar" href="javascript:;" id="headUser">
+
+                        <img src="../images/default_userHeadPic.gif" id="head_userPic">&nbsp;&nbsp;
+
+                        <cite class="layui-hide-xs" id="head_username"></cite>
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="home.html">
+                                <i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a>
+                        </dd>
+                        <dd>
+                            <a href="userCenter.html">
+                                <i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe612;</i>用户中心</a>
+                        </dd>
+                        <dd>
+                            <a href="set.html">
+                                <i class="layui-icon">&#xe620;</i>基本设置</a>
+                        </dd>
+                        <!-- <dd>
+                            <a href="message.html">
+                                <i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a>
+                        </dd> -->
+
+                        <hr style="margin: 5px 0;">
+                        <dd>
+                            <a style="text-align: center;" onclick="logout()">退出</a>
+                        </dd>
+                    </dl>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="layui-container">
+        <div class="layui-row layui-col-space12">
+            <div class="layui-col-md10">
+
+                <div class="fly-panel" style="margin-bottom: 0;">
+
+                    <ul class="fly-list" id="userList">
+                        <!-- <li style="padding-left: 80px;height: 80px">
+                            <a href="home.html?userId=4" class="fly-avatar">
+                                <img src="https://share-system.oss-cn-beijing.aliyuncs.com/image/headpic/75DB7978A8324C4C882A9D61FC1985A6.jpg" alt="junbin"
+                                    style="height: 80px;width: 80px">
+                            </a>
+                            <div class="fly-sns" data-user="" style="float: right" id="show_addFriend">
+                                <a href="javascript:;" class="layui-btn layui-btn-primary fly-imActive" data-type="addFriend" id="addFriend" data-isattend="1">取消关注</a>
+                            </div>
+                            <div class="fly-list-info" style="margin-left: 25px">
+                                <span>junbin</span>
+
+                            </div>
+                            <div class="fly-list-info" style="margin-left: 25px">
+                                <span style="padding-right: 2px">男</span>
+                                <i class="layui-badge fly-badge-vip" id="userLevel" style="padding-right: 2px">Lv.28</i>
+                                <span>广东 汕头</span>
+
+                            </div>
+                            <div class="fly-list-info" style="margin-left: 25px">
+                                <a style="color: #999">关注&nbsp;
+                                    <span>3</span>
+                                </a>&nbsp;&nbsp;
+                                <a style="color: #999">粉丝&nbsp;
+                                    <span>2</span>
+                                </a>&nbsp;&nbsp;
+                                <a style="color: #999">发布&nbsp;
+                                    <span>5</span>
+                                </a>
+                            </div>
+                            <div class="fly-list-info" style="margin-left: 25px">
+                                <span>简介:我是哆啦A梦的粉丝</span>
+                            </div>
+                        </li> -->
+                    </ul>
+                    <!-- 无数据时 -->
+
+                    <div class="fly-none" style="display: none" id="none-data">没有相关数据~</div>
+
+                    <div style="text-align: center;display: none" id="more-data">
+                        <div class="laypage-main">
+                            <a href="javascript:;" onclick="queryNextPageUser()" class="laypage-next">查看更多</a>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="fly-footer">
+            <p>
+                <a href="#" target="_blank">Copyright © 2018 北京理工大学珠海学院、Marjane</a>
+            </p>
+        </div>
+
+        <script src="../js/jquery-2.1.4.min.js"></script>
+        <script src="../resources/layui/layui.js"></script>
+        <script src="../js/global.js"></script>
+        <script src="../js/search.js"></script>
+        <script>
+            var page = 1;
+            var size = 8;
+            var userId = getUserId();
+            var name = getQueryString("name");
+
+            window.onload = function () {
+                queryMyHeadInfo(userId);
+                searchUser(userId, name, page, size);
+            };
+
+            function queryNextPageUser() {
+                page = page + 1;
+                searchUser(userId, name, page, size);
+            }
+
+            function changeRelation(obj) {
+                var type = $(obj).attr('data-isattend');
+                var attendId = $(obj).attr('data-id');
+                $.ajax({
+                    url: "http://127.0.0.1:8081/relationController/updateRelation.do",
+                    type: "get",
+                    data: {
+                        userId: userId,
+                        attendId: attendId,
+                        type: type
+                    },
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    crossDomain: true,
+                    success: function (data) {
+                        if (type == 1) {
+                            $(obj).html("加关注");
+                            $(obj).attr('data-isattend', 0);
+                        } else {
+                            $(obj).html("取消关注");
+                            $(obj).attr('data-isattend', 1);
+                        }
+                    },
+                    error: function (data) {
+                        if (data.status == 403) {
+                            window.location.href = "login.html";
+                        }
+                    }
+                });
+            }
+        </script>
+        <script>
+            layui.config({
+                version: "3.0.0",
+                base: '../js/' //这里实际使用时，建议改成绝对路径
+            }).extend({
+                fly: 'index'
+            }).use('fly');
+        </script>
+
+</body>
+
+</html>

@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>帐号设置</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="keywords" content="帐号设置">
+  <meta name="description" content="帐号设置">
+  <link rel="stylesheet" href="../resources/layui/css/layui.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/set.css">
+</head>
+
+<body>
+
+  <div class="fly-header layui-bg-black">
+    <div class="layui-container">
+      <a class="fly-logo" href="index.html">
+        <img src="../images/logo-min.png" alt="layui">
+      </a>
+
+      <div class="layui-form component">
+        <input type="text" placeholder="搜索帖子或用户" value="" class="layui-input" id="search_text">
+      </div>
+
+      <div class="layui-form search">
+        <select name="searchType" lay-verify="required" id="search_select">
+          <option value="1" select="">帖子</option>
+          <option value="2">用户</option>
+        </select>
+      </div>
+
+      <div class="search-icon">
+        <span class="fly-search">
+          <i class="layui-icon" onclick="search()"></i>
+        </span>
+      </div>
+
+      <ul class="layui-nav fly-nav-user">
+
+        <li class="layui-nav-item">
+          <a class="fly-nav-avatar" href="javascript:;">
+
+            <img src="../images/default_userHeadPic.gif" id="head_userPic">&nbsp;&nbsp;
+
+            <cite class="layui-hide-xs" id="head_username"></cite>
+          </a>
+          <dl class="layui-nav-child">
+            <dd>
+              <a href="home.html">
+                <i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a>
+            </dd>
+            <dd>
+              <a href="userCenter.html">
+                <i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe612;</i>用户中心</a>
+            </dd>
+            <dd>
+              <a href="set.html">
+                <i class="layui-icon">&#xe620;</i>基本设置</a>
+            </dd>
+            <!-- <dd>
+              <a href="message.html">
+                <i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a>
+            </dd> -->
+
+            <hr style="margin: 5px 0;">
+            <dd>
+              <a style="text-align: center;" onclick="logout()">退出</a>
+            </dd>
+          </dl>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+
+  <div class="layui-container fly-marginTop fly-user-main">
+    <ul class="layui-nav layui-nav-tree layui-inline" lay-filter="user">
+      <li class="layui-nav-item">
+        <a href="home.html">
+          <i class="layui-icon">&#xe609;</i>
+          我的主页
+        </a>
+      </li>
+      <li class="layui-nav-item">
+        <a href="userCenter.html">
+          <i class="layui-icon">&#xe612;</i>
+          用户中心
+        </a>
+      </li>
+      <li class="layui-nav-item layui-this">
+        <a href="set.html">
+          <i class="layui-icon">&#xe620;</i>
+          基本设置
+        </a>
+      </li>
+      <!-- <li class="layui-nav-item">
+        <a href="message.html">
+          <i class="layui-icon">&#xe611;</i>
+          我的消息
+        </a>
+      </li> -->
+    </ul>
+
+    <div class="site-tree-mobile layui-hide">
+      <i class="layui-icon">&#xe602;</i>
+    </div>
+    <div class="site-mobile-shade"></div>
+
+    <div class="site-tree-mobile layui-hide">
+      <i class="layui-icon">&#xe602;</i>
+    </div>
+    <div class="site-mobile-shade"></div>
+
+
+    <div class="fly-panel fly-panel-user" pad20>
+      <div class="layui-tab layui-tab-brief" lay-filter="user">
+        <ul class="layui-tab-title" id="LAY_mine">
+          <li class="layui-this" lay-id="info" onclick="showUserInfo()">我的资料</li>
+          <li lay-id="avatar">头像</li>
+          <li lay-id="pass">密码</li>
+        </ul>
+        <div class="layui-tab-content" style="padding: 20px 0;">
+          <div class="layui-form layui-form-pane layui-tab-item layui-show">
+            <form style="display: none" id="userInfo_form">
+              <div class="layui-form-item">
+                <label for="L_username" class="layui-form-label">昵称</label>
+                <div class="layui-input-inline">
+                  <input type="text" id="L_username" name="username" required lay-verify="required|userNameCheck" autocomplete="off" value=""
+                    class="layui-input">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label for="L_sex" class="layui-form-label">性别</label>
+                <div class="layui-inline">
+                  <div class="layui-input-inline">
+                    <input type="radio" name="sex" value="0" title="男" id="nan">
+                    <input type="radio" name="sex" value="1" title="女" id="nv">
+                  </div>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label for="L_city" class="layui-form-label">所在地</label>
+                <div class="layui-input-inline">
+                  <select name="province" lay-filter="province" class="province" id="province">
+                    <option value="">请选择省</option>
+                  </select>
+                </div>
+                <div class="layui-input-inline">
+                  <select id="city" name="city" lay-filter="city" disabled>
+                    <option value="">请选择市</option>
+                  </select>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label for="L_city" class="layui-form-label">生日</label>
+                <div class="layui-input-inline">
+                  <input type="text" class="layui-input" id="birthday" placeholder="yyyy-MM-dd">
+                </div>
+              </div>
+              <div class="layui-form-item layui-form-text">
+                <label for="L_sign" class="layui-form-label">简介</label>
+                <div class="layui-input-block">
+                  <textarea placeholder="随便写些什么刷下存在感" id="L_sign" name="sign" autocomplete="off" class="layui-textarea" style="height: 80px;"
+                    maxlength="50" required></textarea>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <button class="layui-btn" key="set-mine" lay-filter="*" lay-submit>确认修改</button>
+              </div>
+            </form>
+            <div node-type="base_view" style="" id="userInfo_show">
+              <div class="pf_item clearfix">
+                <div class="label S_txt2">昵&nbsp;&nbsp;称</div>
+                <div class="con" node-type="nickname_view" id="show_name"></div>
+              </div>
+
+              <div class="pf_item clearfix">
+                <div class="label S_txt2">所在地</div>
+                <div class="con" node-type="city_view" id="show_address"></div>
+              </div>
+              <div class="pf_item clearfix">
+                <div class="label S_txt2"> 性&nbsp;&nbsp;别</div>
+                <div class="con" node-type="sex_view" id="show_sex"></div>
+              </div>
+              <div class="pf_item clearfix">
+                <div class="label S_txt2">生日</div>
+                <div class="con" node-type="birth_view" id="show_birthday"></div>
+              </div>
+              <div class="pf_item clearfix">
+                <div class="label S_txt2">简介</div>
+                <div class="con" node-type="desc_view" id="show_blurb"></div>
+              </div>
+              <div class="pf_item clearfix">
+                <div class="label S_txt2">注册时间</div>
+                <div class="con" node-type="desc_view" id="show_addtime"></div>
+              </div>
+              <div class="layui-form-item">
+                <button class="layui-btn" key="set-mine" onclick="editUserInfo()">编辑</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="layui-form layui-form-pane layui-tab-item">
+            <div class="layui-form-item">
+              <div class="avatar-add">
+                <p>建议尺寸168*168，支持jpg、png、gif，最大不能超过50KB</p>
+                <button type="button" class="layui-btn upload-img" id="upload_userHeadPic">
+                  <i class="layui-icon">&#xe67c;</i>上传头像
+                </button>
+                <img src="../images/default_userHeadPic.gif" id="show_headPic">
+                <span class="loading"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="layui-form layui-form-pane layui-tab-item">
+            <form action="">
+              <div class="layui-form-item">
+                <label for="L_nowpass" class="layui-form-label">当前密码</label>
+                <div class="layui-input-inline">
+                  <input type="password" id="L_nowpass" name="nowpass" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label for="L_pass" class="layui-form-label">新密码</label>
+                <div class="layui-input-inline">
+                  <input type="password" id="L_pass" name="pass" required lay-verify="required|isPassword" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">6-20位字母数字组合</div>
+              </div>
+              <div class="layui-form-item">
+                <label for="L_repass" class="layui-form-label">确认密码</label>
+                <div class="layui-input-inline">
+                  <input type="password" id="L_repass" name="repass" required lay-verify="required|isSamePwd" autocomplete="off" class="layui-input">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <button class="layui-btn" key="set-mine" lay-filter="update_pwd" lay-submit>确认修改</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="fly-footer">
+    <p>
+      <a href="#" target="_blank">Copyright © 2018 北京理工大学珠海学院、Marjane</a>
+    </p>
+  </div>
+
+  <script src="../js/jquery-2.1.4.min.js"></script>
+  <script src="../resources/layui/layui.js"></script>
+  <script src="../js/address.js"></script>
+  <script src="../js/set.js"></script>
+  <script src="../js/global.js"></script>
+
+  <script>
+    var userId = getUserId();
+    window.onload = function () {
+      queryMyInfo(userId);
+    }
+
+    function editUserInfo() {
+      $("#userInfo_form").attr("style", "");
+      $("#userInfo_show").attr("style", "display:none;");
+      var name = $('#show_name').html();
+      var sex = $('#show_sex').html();
+      var address = $('#show_address').html();
+      var birthday = $('#show_birthday').html();
+      var blurb = $('#show_blurb').html();
+      $('#L_username').attr('value', name);
+      if (sex == '男') {
+        sex = 0;
+      } else if (sex == '女') {
+        sex = 1;
+      } else {
+        sex = -1;
+      }
+      $('[name=sex]').each(function (i, item) {
+        if ($(item).val() == sex) {
+          $(item).prop('checked', true);
+          layui.use('form', function () {
+            var form = layui.form;
+            form.render();
+          });
+        }
+      });
+      if (address != '未填写') {
+        place = address.split(' ');
+        var province = place[0];
+        var city = place[1];
+
+        $('#province').val(province);
+
+        layui.use('form', function () {
+          var form = layui.form;
+          form.render();
+        });
+        for (var i = 0; i < addressJson.length; i++) {
+          if (addressJson[i].provinceName == province) {
+            var cityHtml = '<option value="">请选择市</option>';
+            for (var j = 0; j < addressJson[i].citys.length; j++) {
+              cityHtml += '<option value="' + addressJson[i].citys[j].citysName + '">' + addressJson[i].citys[j].citysName +
+                '</option>';
+            }
+            $("select[name=city]").html(cityHtml).removeAttr("disabled");
+          }
+        }
+        $('#city').val(city);
+        layui.use('form', function () {
+          var form = layui.form;
+          form.render();
+        });
+      }
+      if (birthday != '未填写') {
+        $('#birthday').val(birthday);
+      }
+      if (blurb != '未填写') {
+        $('#L_sign').val(blurb);
+      }
+
+    }
+
+    layui.use(['form', 'layedit', 'laydate'], function () {
+      var form = layui.form,
+        layer = layui.layer,
+        layedit = layui.layedit,
+        laydate = layui.laydate;
+
+      //自定义验证规则
+      form.verify({
+        userNameCheck: function (value) {
+          if (value.length < 2) {
+            return '昵称至少两个字符';
+          }
+          if (value.length > 10) {
+            return '昵称不能超过10个字符';
+          }
+          var reg = /^[\u4E00-\u9FA5a-zA-Z][\u4E00-\u9FA5a-zA-Z0-9_]*$/;
+          if (!reg.test(value)) {
+            return '昵称只能是中文、字母、数字、下划线，且以中文或字母开头';
+          }
+        },
+        content: function (value) {
+          if (value.length > 200) {
+            return '内容不能超过200个字';
+          }
+        },
+        isPassword: function (value) {
+          var passwordRegx = /^[0-9a-zA-Z]*$/;
+          if (value.length < 6) {
+            return '密码长度不能小于6位';
+          }
+          if (value.length > 20) {
+            return '密码长度不能超过20位';
+          }
+          if (!passwordRegx.test(value)) {
+            return '密码只能由字母和数字组成';
+          }
+        },
+        isSamePwd: function (value) {
+          var pass = $('#L_pass').val();
+          console.log(pass);
+          if (pass != value) {
+            return '两次新密码必须一致';
+          }
+        }
+      });
+
+      form.on('submit(update_pwd)', function (data) {
+
+        data = data.field;
+        var flag = 0;
+        $.ajax({
+          url: "http://127.0.0.1:8081/userController/resetPassword.do",
+          async: false,
+          data: {
+            id: userId,
+            oldPassword: data.nowpass,
+            newPassword: data.pass
+          },
+          xhrFields: {
+            withCredentials: true
+          },
+          crossDomain: true,
+          error: function () {
+            if (data.status == 403) {
+              window.location.href = "login.html";
+            } else {
+              layer.alert("请求异常,请重新尝试!", {
+                title: '发布失败!',
+                time: 2000
+              });
+            }
+          },
+          success: function (data) {
+            data = jQuery.parseJSON(data);
+            if (data.result == -2) {
+              layer.alert("原密码不正确!", {
+                title: '修改失败!',
+                time: 2000
+              });
+              return false;
+            }
+            if (data.result == -1) {
+              layer.alert("新密码不能与原密码相同!", {
+                title: '修改失败!',
+                time: 2000
+              });
+              return false;
+            } else {
+              flag = 1;
+              var msg = "修改成功!";
+              layer.msg(msg, {
+                time: 2000
+              });
+            }
+          }
+        });
+        if (flag == 1) {
+          setTimeout(() => {
+            window.location.href = "login.html";
+          }, 2000);
+        }
+        return false;
+      });
+
+
+      //监听提交
+      form.on('submit(*)', function (data) {
+        data = data.field;
+        var birthday = $('#birthday').val();
+        var sex = "";
+        var address = "";
+        if (data.province) {
+          address = data.province + ' ' + data.city;
+        }
+        if (data.sex == 1) {
+          sex = "女";
+        } else if (data.sex == 0) {
+          sex = "男";
+        }
+
+        var flag = 0;
+        $.ajax({
+          url: "http://127.0.0.1:8081/userController/updateUserMainInfo.do",
+          async: false,
+          data: {
+            id: userId,
+            userName: data.username,
+            sex: sex,
+            address: address,
+            birthday: birthday,
+            blurb: data.sign,
+          },
+          xhrFields: {
+            withCredentials: true
+          },
+          crossDomain: true,
+          error: function () {
+            if (data.status == 403) {
+              window.location.href = "login.html";
+            } else {
+              layer.alert("请求异常,请重新尝试!", {
+                title: '发布失败!',
+                time: 2000
+              });
+            }
+          },
+          success: function (data) {
+            data = jQuery.parseJSON(data);
+            if (data.result == -1) {
+              layer.alert("昵称已被使用!", {
+                title: '修改失败!',
+                time: 2000
+              });
+              return false;
+            } else {
+              flag = 1;
+              var msg = "修改成功!";
+              layer.msg(msg, {
+                time: 2000
+              });
+            }
+          }
+        });
+        if (flag == 1) {
+          setTimeout(() => {
+            location.reload();
+          }, 2000);
+        }
+        return false;
+
+      });
+
+    });
+
+
+
+
+    function showUserInfo() {
+      $("#userInfo_form").attr("style", "display:none;");
+      $("#userInfo_show").attr("style", "");
+    }
+  </script>
+  <script>
+    layui.use('laydate', function () {
+      var laydate = layui.laydate;
+      laydate.render({
+        elem: '#birthday'
+      });
+    });
+    layui.cache.page = 'user';
+    layui.cache.user = {
+      username: '游客',
+      uid: -1,
+      avatar: '../../res/images/avatar/00.jpg',
+      experience: 83,
+      sex: '男'
+    };
+    layui.config({
+      base: "../js/" //address.js的路径  
+    }).use(['layer', 'jquery', "address"], function () {
+      var layer = layui.layer,
+        $ = layui.jquery,
+        address = layui.address();
+
+    });
+    layui.config({
+      version: "2.0.0",
+      base: '../js/'
+    }).extend({
+      fly: 'index'
+    }).use('fly');
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>用户中心</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="keywords" content="用户中心">
+  <meta name="description" content="用户中心">
+  <link rel="stylesheet" href="../resources/layui/css/layui.css">
+  <link rel="stylesheet" href="../css/global.css">
+</head>
+
+<body>
+
+  <div class="fly-header layui-bg-black">
+    <div class="layui-container">
+      <a class="fly-logo" href="index.html">
+        <img src="../images/logo-min.png" alt="layui">
+      </a>
+
+      <div class="layui-form component">
+        <input type="text" placeholder="搜索帖子或用户" value="" class="layui-input" id="search_text">
+      </div>
+
+      <div class="layui-form search">
+        <select name="searchType" lay-verify="required" id="search_select">
+          <option value="1" select="">帖子</option>
+          <option value="2">用户</option>
+        </select>
+      </div>
+
+      <div class="search-icon">
+        <span class="fly-search">
+          <i class="layui-icon" onclick="search()"></i>
+        </span>
+      </div>
+
+
+      <ul class="layui-nav fly-nav-user">
+
+        <li class="layui-nav-item">
+          <a class="fly-nav-avatar" href="javascript:;">
+
+            <img src="../images/default_userHeadPic.gif" id="head_userPic">&nbsp;&nbsp;
+
+            <cite class="layui-hide-xs" id="head_username"></cite>
+          </a>
+          <dl class="layui-nav-child">
+            <dd>
+              <a href="home.html">
+                <i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a>
+            </dd>
+            <dd>
+              <a href="userCenter.html">
+                <i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe612;</i>用户中心</a>
+            </dd>
+            <dd>
+              <a href="set.html">
+                <i class="layui-icon">&#xe620;</i>基本设置</a>
+            </dd>
+            <!-- <dd>
+              <a href="message.html">
+                <i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a>
+            </dd> -->
+
+            <hr style="margin: 5px 0;">
+            <dd>
+              <a style="text-align: center;" onclick="logout()">退出</a>
+            </dd>
+          </dl>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+
+  <div class="layui-container fly-marginTop fly-user-main">
+    <ul class="layui-nav layui-nav-tree layui-inline" lay-filter="user">
+      <li class="layui-nav-item">
+        <a href="home.html">
+          <i class="layui-icon">&#xe609;</i>
+          我的主页
+        </a>
+      </li>
+      <li class="layui-nav-item  layui-this">
+        <a href="userCenter.html">
+          <i class="layui-icon">&#xe612;</i>
+          用户中心
+        </a>
+      </li>
+      <li class="layui-nav-item">
+        <a href="set.html">
+          <i class="layui-icon">&#xe620;</i>
+          基本设置
+        </a>
+      </li>
+      <!-- <li class="layui-nav-item">
+        <a href="message.html">
+          <i class="layui-icon">&#xe611;</i>
+          我的消息
+        </a>
+      </li> -->
+    </ul>
+
+    <div class="site-tree-mobile layui-hide">
+      <i class="layui-icon">&#xe602;</i>
+    </div>
+    <div class="site-mobile-shade"></div>
+
+    <div class="site-tree-mobile layui-hide">
+      <i class="layui-icon">&#xe602;</i>
+    </div>
+    <div class="site-mobile-shade"></div>
+
+
+    <div class="fly-panel fly-panel-user" pad20>
+
+      <div class="layui-tab layui-tab-brief" lay-filter="user">
+        <ul class="layui-tab-title" id="LAY_mine">
+          <li data-type="mine-jie" lay-id="index" class="type layui-this" id="my_topic">我发的帖（
+            <span id="myCount"></span> ）</li>
+          <li lay-id="collection" class="type" id="collect">我收藏的帖（
+            <span id="collectCount"></span> ）</li>
+          <li lay-id="love" class="type" id="love">我点赞的帖（
+            <span id="loveCount"></span> ）</li>
+        </ul>
+        <div class="layui-tab-content" style="padding: 20px 0;">
+          <div class="layui-tab-item layui-show" id="tab1">
+            <ul class="mine-view jie-row" id="mytopicList">
+
+            </ul>
+            <div class="fly-none" style="display: none" id="none-data">没有相关数据~</div>
+
+            <div style="text-align: center;display: none" id="more-data">
+              <div class="laypage-main">
+                <a href="javascript:;" onclick="queryNextPageMyTopic()" class="laypage-next">查看更多</a>
+              </div>
+            </div>
+            <div id="LAY_page"></div>
+          </div>
+          <div class="layui-tab-item" id="tab2">
+            <ul class="mine-view jie-row" id="collectList">
+
+            </ul>
+            <div class="fly-none" style="display: none" id="none-data1">没有相关数据~</div>
+
+            <div style="text-align: center;display: none" id="more-data1">
+              <div class="laypage-main">
+                <a href="javascript:;" onclick="queryNextPageCollectTopic()" class="laypage-next">查看更多</a>
+              </div>
+            </div>
+            <div id="LAY_page1"></div>
+          </div>
+          <div class="layui-tab-item" id="tab3">
+            <ul class="mine-view jie-row" id="loveList">
+              <!-- <li>
+                <a class="jie-title" href="../jie/detail.html" target="_blank">基于 layui 的极简社区页面</a>
+                <i>收藏于23小时前</i>
+              </li> -->
+            </ul>
+            <div class="fly-none" style="display: none" id="none-data2">没有相关数据~</div>
+
+            <div style="text-align: center;display: none" id="more-data2">
+              <div class="laypage-main">
+                <a href="javascript:;" onclick="queryNextPageLoveTopic()" class="laypage-next">查看更多</a>
+              </div>
+            </div>
+            <div id="LAY_page2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fly-footer">
+    <p>
+      <a href="#" target="_blank">Copyright © 2018 北京理工大学珠海学院、Marjane</a>
+    </p>
+  </div>
+
+  <script src="../js/jquery-2.1.4.min.js"></script>
+  <script src="../resources/layui/layui.js"></script>
+  <script src="../js/global.js"></script>
+  <script src="../js/userCenter.js"></script>
+  <script>
+    var userId = getUserId();
+    var type = getQueryString("type");
+    var page = 1;
+    var size = 10;
+    window.onload = function () {
+      if (type == 1 || !type) {
+        queryMyTopic(userId, page, size);
+      } else if (type == 2) {
+        $('.type').removeClass('layui-this');
+        $('#collect').addClass('layui-this');
+        $('#tab1').removeClass('layui-show');
+        $('#tab2').addClass('layui-show');
+        queryMyCollectionTopic(userId, page, size);
+      } else if (type == 3) {
+        $('.type').removeClass('layui-this');
+        $('#love').addClass('layui-this');
+        $('#tab1').removeClass('layui-show');
+        $('#tab3').addClass('layui-show');
+        queryMyLoveTopic(userId, page, size);
+      }
+      queryMyHeadInfo(userId);
+      queryRelationTopicCount(userId);
+    }
+    $('#my_topic').bind('click', function () {
+      page = 1;
+      $('#mytopicList').html("");
+      $('#none-data').html('没有相关数据～');
+      queryMyTopic(userId, page, size);
+
+    })
+    $('#collect').bind('click', function () {
+      page = 1;
+      $('#collectList').html("");
+      $('#none-data1').html('没有相关数据～');
+      queryMyCollectionTopic(userId, page, size);
+    })
+    $('#love').bind('click', function () {
+      page = 1;
+      $('#loveList').html("");
+      $('#none-data2').html('没有相关数据～');
+      queryMyLoveTopic(userId, page, size);
+    })
+
+    function queryNextPageMyTopic() {
+      page++;
+      queryMyTopic(userId, page, size);
+    }
+
+    function queryNextPageCollectTopic() {
+      page++;
+      queryMyCollectionTopic(userId, page, size);
+    }
+
+    function queryNextPageLoveTopic() {
+      page++;
+      queryMyLoveTopic(userId, page, size);
+    }
+  </script>
+  <script>
+    layui.config({
+      version: "3.0.0",
+      base: '../js/'
+    }).extend({
+      fly: 'index'
+    }).use('fly');
+  </script>
+
+</body>
+
+</html>

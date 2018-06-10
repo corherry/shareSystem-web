@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>首页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="keywords" content="首页">
+  <meta name="description" content="首页">
+  <link rel="stylesheet" href="../resources/layui/css/layui.css">
+  <link rel="stylesheet" href="../css/global.css">
+
+</head>
+
+<body>
+
+  <div class="fly-header layui-bg-black">
+    <div class="layui-container">
+      <a class="fly-logo" href="index.html">
+        <img src="../images/logo-min.png" alt="layui">
+      </a>
+
+      <div class="layui-form component">
+        <input type="text" placeholder="搜索帖子或用户" value="" class="layui-input" id="search_text">
+      </div>
+
+      <div class="layui-form search">
+        <select name="searchType" lay-verify="required" id="search_select">
+          <option value="1" select="">帖子</option>
+          <option value="2">用户</option>
+        </select>
+      </div>
+
+      <div class="search-icon">
+        <span class="fly-search">
+          <i class="layui-icon" onclick="search()"></i>
+        </span>
+      </div>
+
+
+      <ul class="layui-nav fly-nav-user">
+
+        <li class="layui-nav-item">
+          <a class="fly-nav-avatar" href="javascript:;" id="headUser">
+
+            <img src="../images/default_userHeadPic.gif" id="head_userPic">&nbsp;&nbsp;
+
+            <cite class="layui-hide-xs" id="head_username"></cite>
+          </a>
+          <dl class="layui-nav-child">
+            <dd>
+              <a href="home.html">
+                <i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a>
+            </dd>
+            <dd>
+              <a href="userCenter.html">
+                <i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe612;</i>用户中心</a>
+            </dd>
+            <dd>
+              <a href="set.html">
+                <i class="layui-icon">&#xe620;</i>基本设置</a>
+            </dd>
+            <!-- <dd>
+              <a href="message.html">
+                <i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a>
+            </dd> -->
+
+            <hr style="margin: 5px 0;">
+            <dd>
+              <a style="text-align: center;" onclick="logout()">退出</a>
+            </dd>
+          </dl>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+
+  <div class="fly-panel fly-column">
+    <div class="layui-container">
+      <ul class="layui-clear" id="topic_category">
+        <li class="category layui-this">
+          <a data-category="0">全部</a>
+        </li>
+        <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block">
+          <span class="fly-mid"></span>
+        </li>
+
+        <!-- 用户登入后显示 -->
+        <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block">
+          <a href="userCenter.html?type=1">我发表的贴</a>
+        </li>
+        <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block">
+          <a href="userCenter.html?type=2">我收藏的贴</a>
+        </li>
+        <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block">
+          <a href="userCenter.html?type=3">我点赞的帖</a>
+        </li>
+      </ul>
+
+      <div class="fly-column-right layui-hide-xs">
+        <a href="add.html" class="layui-btn">发表新帖</a>
+      </div>
+      <div class="layui-hide-sm layui-show-xs-block" style="margin-top: -10px; padding-bottom: 10px; text-align: center;">
+        <a href="add.html" class="layui-btn">发表新帖</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="layui-container">
+    <div class="layui-row layui-col-space15">
+      <div class="layui-col-md8">
+
+        <div class="fly-panel" style="margin-bottom: 0;">
+
+          <div class="fly-panel-title fly-filter">
+            <a class="range layui-this" data-range="0">综合</a>
+            <span class="fly-mid"></span>
+            <a class="range" data-range="1">好友</a>
+
+            <span class="fly-filter-right layui-hide-xs">
+              <a class="order layui-this" data-order="addtime">按最新</a>
+              <span class="fly-mid"></span>
+              <a class="order" data-order="seeCount">按热度</a>
+              <span class="fly-mid"></span>
+              <a class="order" data-order="commentCount">按热议</a>
+              <span class="fly-mid"></span>
+              <a class="order" data-order="loveCount">按赞好</a>
+            </span>
+          </div>
+
+          <ul class="fly-list" id="topicList">
+          </ul>
+          <!-- 无数据时 -->
+
+          <div class="fly-none" style="display: none" id="none-data">没有相关数据~</div>
+
+          <div style="text-align: center;display: none" id="more-data">
+            <div class="laypage-main">
+              <a href="javascript:;" onclick="queryNextPageTopic()" class="laypage-next">查看更多</a>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+      <div class="layui-col-md3">
+
+        <div class="fly-panel">
+          <div class="usercard" href="">
+            <img src="../images/userbackground.png" class="background">
+            <a id="userHomePic" href="">
+              <img src="../images/default_userHeadPic.gif" class="user_info_icon" id="index_userHeadPic">
+            </a>
+            <div class="WB_innerwrap">
+              <a id="userHomeName" href="">
+                <h3 id="index_username">
+                  <i class="layui-badge fly-badge-vip" id="main_userLevel"></i>
+                </h3>
+              </a>
+              <ul class="userinfo">
+                <li>
+                  <a href="friendView.html">
+                    <strong id="friend_num"></strong>
+                    <br>关注</a>
+                </li>
+                <li>
+                  <a href="fansView.html">
+                    <strong id="fans_num"></strong>
+                    <br>粉丝</a>
+                </li>
+                <li class="last">
+                  <a href="home.html" class="last_a">
+                    <strong id="publish_num"></strong>
+                    <br>发布</a>
+                </li>
+              </ul>
+              <hr>
+            </div>
+          </div>
+
+          <dl class="fly-panel fly-list-one">
+            <dt class="fly-panel-title" id="see_rank">浏览榜单</dt>
+
+            <div class="fly-none" style="display: none" id="see-none">没有相关数据</div>
+
+          </dl>
+
+          <dl class="fly-panel fly-list-one">
+            <dt class="fly-panel-title" id="comment_rank">热议榜单</dt>
+            <div class="fly-none" style="display:none" id="comment-none">没有相关数据</div>
+
+          </dl>
+
+
+        </div>
+      </div>
+    </div>
+
+    <div class="fly-footer">
+      <p>
+        <a href="#" target="_blank">Copyright © 2018 北京理工大学珠海学院、Marjane</a>
+      </p>
+    </div>
+
+    <script src="../js/jquery-2.1.4.min.js"></script>
+    <script src="../resources/layui/layui.js"></script>
+    <script src="../js/global.js"></script>
+    <script>
+      var order = "addtime";
+      var range = 0;
+      var topicClassId = 0;
+      var page = 1;
+      var size = 8;
+      var userid = getUserId();
+
+      window.onload = function () {
+        getCategory();
+        queryTopicSeeRank();
+        queryTopicCommentRank();
+        getUserInfo(userid);
+        getTopicList(userid, topicClassId, range, order, page, size);
+      };
+
+      $('.range').bind('click', function () {
+        $(this).addClass('layui-this').siblings().removeClass('layui-this');
+        if (this.dataset.range != range) {
+          range = this.dataset.range;
+          $('#topicList').html('');
+          page = 1;
+          $('#none-data').html('没有相关数据～');
+          getTopicList(userid, topicClassId, range, order, page, size);
+        }
+      });
+      $('.order').bind('click', function () {
+        $(this).addClass('layui-this').siblings().removeClass('layui-this');
+        console.log(this.children[0]);
+        if (this.dataset.order != order) {
+          order = this.dataset.order;
+          $('#topicList').html('');
+          page = 1;
+          $('#none-data').html('没有相关数据～');
+          getTopicList(userid, topicClassId, range, order, page, size);
+        }
+      });
+
+      $('#topic_category').delegate('.category', 'click', function () {
+        $(this).addClass('layui-this').siblings().removeClass('layui-this');
+        if (this.children[0].dataset.category != topicClassId) {
+          topicClassId = this.children[0].dataset.category;
+          $('#topicList').html('');
+          page = 1;
+          $('#none-data').html('没有相关数据～');
+          getTopicList(userid, topicClassId, range, order, page, size);
+        }
+
+      });
+
+      function queryNextPageTopic() {
+        page = page + 1;
+        getTopicList(userid, topicClassId, range, order, page, size);
+      }
+    </script>
+    <script>
+      layui.config({
+        version: "3.0.0",
+        base: '../js/' //这里实际使用时，建议改成绝对路径
+      }).extend({
+        fly: 'index'
+      }).use('fly');
+    </script>
+
+</body>
+
+</html>

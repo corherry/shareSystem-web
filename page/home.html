@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>用户主页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="keywords" content="fly,layui,前端社区">
+  <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
+  <link rel="stylesheet" href="../resources/layui/css/layui.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/home.css">
+</head>
+
+<body style="margin-top: 65px;">
+
+  <div class="fly-header layui-bg-black">
+    <div class="layui-container">
+      <a class="fly-logo" href="index.html">
+        <img src="../images/logo-min.png" alt="layui">
+      </a>
+
+      <div class="layui-form component">
+        <input type="text" placeholder="搜索帖子或用户" value="" class="layui-input" id="search_text">
+      </div>
+
+      <div class="layui-form search">
+        <select name="searchType" lay-verify="required" id="search_select">
+          <option value="1" select="">帖子</option>
+          <option value="2">用户</option>
+        </select>
+      </div>
+
+      <div class="search-icon">
+        <span class="fly-search">
+          <i class="layui-icon" onclick="search()"></i>
+        </span>
+      </div>
+
+
+      <ul class="layui-nav fly-nav-user">
+
+        <li class="layui-nav-item">
+          <a class="fly-nav-avatar" href="javascript:;">
+
+            <img src="../images/default_userHeadPic.gif" id="head_userPic">&nbsp;&nbsp;
+
+            <cite class="layui-hide-xs" id="head_username"></cite>
+          </a>
+          <dl class="layui-nav-child">
+            <dd>
+              <a href="home.html">
+                <i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a>
+            </dd>
+            <dd>
+              <a href="userCenter.html">
+                <i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe612;</i>用户中心</a>
+            </dd>
+            <dd>
+              <a href="set.html">
+                <i class="layui-icon">&#xe620;</i>基本设置</a>
+            </dd>
+            <!-- <dd>
+              <a href="message.html">
+                <i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a>
+            </dd> -->
+
+            <hr style="margin: 5px 0;">
+            <dd>
+              <a style="text-align: center;" onclick="logout()">退出</a>
+            </dd>
+          </dl>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+
+  <div class="fly-home fly-panel" style="background-image: url();">
+    <img src="../images/default_userHeadPic.gif" alt="贤心" id="main_userPic">
+    <h1 id="user_maininfo">
+
+      <i class="iconfont icon-nan" id="main_userSex" style=""></i>
+      <!-- <i class="iconfont icon-nv"></i>  -->
+      <i class="layui-badge fly-badge-vip" id="main_userLevel"></i>
+    </h1>
+
+    <p class="fly-home-sign" id="main_userBlurb"></p>
+
+    <div class="fly-sns" data-user="" style="display: none;" id="show_addFriend">
+      <a href="javascript:;" class="layui-btn layui-btn-primary fly-imActive" data-type="addFriend" id="addFriend"></a>
+    </div>
+
+  </div>
+
+  <div class="layui-container">
+    <div class="layui-row layui-col-space15">
+      <div class="layui-col-md8 fly-home-jie">
+
+        <div class="fly-panel" style="margin-bottom: 0;">
+          <div class="fly-panel-title fly-filter">
+            <form class="layui-form">
+              <div class="layui-form-item">
+                <div class="layui-input-block" style="width: 100px; margin-left: 0px; padding-top: 7px">
+                  <select lay-verify="required" name="class" lay-filter="category" id="topic_category">
+                    <option value="0" selected>综合</option>
+                  </select>
+                </div>
+              </div>
+            </form>
+
+            <span class="fly-filter-right layui-hide-xs">
+              <a class="order layui-this" data-order="addtime">按最新</a>
+              <span class="fly-mid"></span>
+              <a class="order" data-order="seeCount">按热度</a>
+              <span class="fly-mid"></span>
+              <a class="order" data-order="commentCount">按热议</a>
+              <span class="fly-mid"></span>
+              <a class="order" data-order="loveCount">按赞好</a>
+            </span>
+          </div>
+
+          <ul class="fly-list" id="topicList">
+
+          </ul>
+          <div class="fly-none" style="display: none" id="none-data">没有相关数据～</div>
+
+          <div style="text-align: center;display: none" id="more-data">
+            <div class="laypage-main">
+              <a href="javascript:;" onclick="queryHomeNextPageTopic()" class="laypage-next">查看更多</a>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+
+      <div class="layui-col-md4 fly-home-da">
+        <div class="fly-panel">
+          <div id="Pl_Core_T8CustomTriColumn__3" anchor="-50">
+            <div class="WB_cardwrap S_bg2">
+              <div class="PCD_counter">
+                <div class="WB_innerwrap">
+                  <table class="tb_counter" cellpadding="0" cellspacing="0">
+                    <tbody>
+                      <tr>
+                        <td class="S_line1">
+                          <a bpfilter="page_frame" class="t_link S_txt1" id="friendUrl" href="friendView.html">
+                            <strong class="W_f14" id="friend_num"></strong>
+                            <span class="S_txt2">关注</span>
+                          </a>
+                        </td>
+                        <td class="S_line1">
+                          <a bpfilter="page_frame" class="t_link S_txt1" id="fansUrl" href="fansView.html">
+                            <strong class="W_f14" id="fans_num"></strong>
+                            <span class="S_txt2">粉丝</span>
+                          </a>
+                        </td>
+                        <td class="S_line1">
+                          <a bpfilter="page_frame" class="t_link S_txt1" id="homeUrl" href="home.html">
+                            <strong class="W_f14" id="publish_num"></strong>
+                            <span class="S_txt2">发布</span>
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div node-type="base_view" style="" id="userInfo_show">
+            <div class="pf_item clearfix">
+              <div class="label S_txt2">昵&nbsp;&nbsp;称</div>
+              <div class="con" node-type="nickname_view" id="userName"></div>
+            </div>
+
+            <div class="pf_item clearfix">
+              <div class="label S_txt2">所在地</div>
+              <div class="con" node-type="city_view" id="address"></div>
+            </div>
+            <div class="pf_item clearfix">
+              <div class="label S_txt2"> 性&nbsp;&nbsp;别</div>
+              <div class="con" node-type="sex_view" id="sex"></div>
+            </div>
+            <div class="pf_item clearfix">
+              <div class="label S_txt2">生日</div>
+              <div class="con" node-type="birth_view" id="birthday"></div>
+            </div>
+            <div class="pf_item clearfix">
+              <div class="label S_txt2">简介</div>
+              <div class="con" node-type="desc_view" id="blurb"></div>
+            </div>
+            <div class="pf_item clearfix">
+              <div class="label S_txt2">注册时间</div>
+              <div class="con" node-type="desc_view" id="createTime"></div>
+            </div>
+            <a class="WB_cardmore S_txt1 S_line1 clearfix" id="edit_user" href="" bpfilter="page_frame" ontouchstart="" style="">
+              <span class="more_txt">编辑个人资料&nbsp;
+                <i class="layui-icon W_ficon ficon_arrow_right S_ficon">&#xe602;</i>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fly-footer">
+    <p>
+      <a href="#" target="_blank">Copyright © 2018 北京理工大学珠海学院、Marjane</a>
+    </p>
+  </div>
+
+  <script src="../js/jquery-2.1.4.min.js"></script>
+  <script src="../resources/layui/layui.js"></script>
+  <script src="../js/global.js"></script>
+  <script src="../js/home.js"></script>
+  <script>
+    var seeUserId = getQueryString("userId");
+    var userId = getUserId();
+    if (!seeUserId) {
+      seeUserId = userId;
+    }
+    var topicClassId = 0;
+    var order = "addtime";
+    var page = 1;
+    var size = 8;
+    window.onload = function () {
+      if (userId != seeUserId) {
+        isAttend(userId, seeUserId);
+      }
+      getHomeCategory();
+      queryMyHeadInfo(userId);
+      queryUserInfo(userId, seeUserId);
+      getHomeTopicList(userId, seeUserId, topicClassId, order, page, size);
+    };
+
+    $('.order').bind('click', function () {
+      $(this).addClass('layui-this').siblings().removeClass('layui-this');
+      if (this.dataset.order != order) {
+        order = this.dataset.order;
+        $('#topicList').html('');
+        page = 1;
+        $('none-data').html('没有相关数据～');
+        getHomeTopicList(userId, seeUserId, topicClassId, order, page, size);
+      }
+    });
+
+    $('#addFriend').bind('click', function () {
+      var type = $('#addFriend').attr('data-isattend');
+
+      $.ajax({
+        url: "http://127.0.0.1:8081/relationController/updateRelation.do",
+        type: "get",
+        data: {
+          userId: userId,
+          attendId: seeUserId,
+          type: type
+        },
+        xhrFields: {
+          withCredentials: true
+        },
+        crossDomain: true,
+        success: function (data) {
+          window.location.reload();
+        },
+        error: function (data) {
+          if (data.status == 403) {
+            window.location.href = "login.html";
+          }
+        }
+      });
+    })
+
+    layui.use('form', function () {
+      var form = layui.form;
+
+      form.on('select(category)', function (data) {
+        topicClassId = data.value;
+        $('#topicList').html('');
+        page = 1;
+        $('none-data').html('没有相关数据～');
+        getHomeTopicList(userId, seeUserId, topicClassId, order, page, size);
+      });
+    });
+
+
+
+    function queryHomeNextPageTopic() {
+      page = page + 1;
+      getHomeTopicList(userId, seeUserId, topicClassId, order, page, size);
+    }
+  </script>
+  <script>
+    layui.config({
+      version: "3.0.0",
+      base: '../js/'
+    }).extend({
+      fly: 'index'
+    }).use('fly');
+  </script>
+
+</body>
+
+</html>

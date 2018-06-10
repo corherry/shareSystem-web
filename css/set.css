@@ -1,0 +1,28 @@
+.pf_item {
+	font-size: 13px;
+	line-height: 30px;
+	margin-bottom: 5px;
+	position: relative;
+}
+
+.clearfix {
+  display: block;
+}
+
+.pf_item .label {
+	float: left;
+	width: 53px;
+	*width: 59px;
+	text-align: right;
+	white-space: nowrap;
+}
+
+.S_txt2{
+  color: #808080;
+}
+
+.pf_item .con {
+  margin-left: 67px;
+  padding: 0 10px;
+  word-wrap: break-word;
+}

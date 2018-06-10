@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>注册</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/gloab.css" rel="stylesheet">
+    <link href="../css/register.css" rel="stylesheet">
+    <script src="../js/jquery-2.1.4.min.js"></script>
+    <script src="../js/register.js"></script>
+</head>
+
+<body class="body-content">
+    <div class="logo-box">
+    </div>
+    <div class="login-box f-mt10 f-pb30">
+        <div class="main bgf">
+            <div class="reg-box-pan display-inline">
+                <div class="step">
+                    <ul>
+                        <li class="col-xs-4 on">
+                            <span class="num">
+                                <em class="f-r5"></em>
+                                <i>1</i>
+                            </span>
+                            <span class="line_bg lbg-r"></span>
+                            <p class="lbg-txt">填写账户信息</p>
+                        </li>
+                        <li class="col-xs-4">
+                            <span class="num">
+                                <em class="f-r5"></em>
+                                <i>2</i>
+                            </span>
+                            <span class="line_bg lbg-l"></span>
+                            <span class="line_bg lbg-r"></span>
+                            <p class="lbg-txt">验证账户信息</p>
+                        </li>
+                        <li class="col-xs-4">
+                            <span class="num">
+                                <em class="f-r5"></em>
+                                <i>3</i>
+                            </span>
+                            <span class="line_bg lbg-l"></span>
+                            <p class="lbg-txt">注册成功</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="reg-box" id="verifyCheck" style="margin-top:20px;">
+                    <div class="part1">
+                        <div class="item col-xs-12">
+                            <span class="intelligent-label f-fl">
+                                <b class="ftx04">*</b>用户名：</span>
+                            <div class="f-fl item-ifo">
+                                <input type="text" maxlength="20" class="txt03 f-r3 required" tabindex="1" data-valid="isNonEmpty||between:2-10||isUname||isUnameExisted"
+                                    data-error="用户名不能为空||用户名长度2-10位||只能输入中文、字母、数字、下划线，且以中文或字母开头||用户名已存在" id="userName" />
+                                <span class="ie8 icon-close close hide"></span>
+                                <label class="icon-sucessfill blank hide"></label>
+                                <label class="focus">
+                                    <span>2-20位，中文、字母、数字、下划线的组合，以中文或字母开头</span>
+                                </label>
+                                <label class="focus valid"></label>
+                            </div>
+                        </div>
+                        <div class="item col-xs-12">
+                            <span class="intelligent-label f-fl">
+                                <b class="ftx04">*</b>手机/邮箱：</span>
+                            <div class="f-fl item-ifo">
+                                <input type="text" class="txt03 f-r3 required" keycodes="tel" tabindex="2" data-valid="isNonEmpty||isPhoneOrEmail||isAccountExisted"
+                                    data-error="手机号码不能为空||手机/邮箱格式不正确||账号已被注册" id="account" />
+                                <span class="ie8 icon-close close hide"></span>
+                                <label class="icon-sucessfill blank hide"></label>
+                                <label class="focus">有效的手机或邮箱</label>
+                                <label class="focus valid"></label>
+                            </div>
+                        </div>
+                        <div class="item col-xs-12">
+                            <span class="intelligent-label f-fl">
+                                <b class="ftx04">*</b>密码：</span>
+                            <div class="f-fl item-ifo">
+                                <input type="password" id="password" maxlength="20" class="txt03 f-r3 required" tabindex="3" style="ime-mode:disabled;" onpaste="return  false"
+                                    autocomplete="off" data-valid="isNonEmpty||between:6-20||isPwd||level:2" data-error="密码不能为空||密码长度6-20位||密码只能由字母和数字组成||该密码太简单，有被盗风险，建议字母+数字的组合"
+                                />
+                                <span class="ie8 icon-close close hide" style="right:55px"></span>
+                                <span class="showpwd" data-eye="password"></span>
+                                <label class="icon-sucessfill blank hide"></label>
+                                <label class="focus">6-20位英文(区分大小写)或数字组合</label>
+                                <label class="focus valid"></label>
+                                <span class="clearfix"></span>
+                                <label class="strength">
+                                    <span class="f-fl f-size12">安全程度：</span>
+                                    <b>
+                                        <i>弱</i>
+                                        <i>中</i>
+                                        <i>强</i>
+                                    </b>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="item col-xs-12">
+                            <span class="intelligent-label f-fl">
+                                <b class="ftx04">*</b>确认密码：</span>
+                            <div class="f-fl item-ifo">
+                                <input type="password" maxlength="20" class="txt03 f-r3 required" tabindex="4" style="ime-mode:disabled;" onpaste="return  false"
+                                    autocomplete="off" data-valid="isNonEmpty||between:6-20||isPwd||isRepeat:password" data-error="密码不能为空||密码长度6-20位||密码只能由字母和数字组成||两次密码输入不一致"
+                                    id="rePassword" />
+                                <span class="ie8 icon-close close hide" style="right:55px"></span>
+                                <span class="showpwd" data-eye="rePassword"></span>
+                                <label class="icon-sucessfill blank hide"></label>
+                                <label class="focus">请再输入一遍上面的密码</label>
+                                <label class="focus valid"></label>
+                            </div>
+                        </div>
+                        <div class="item col-xs-12">
+                            <span class="intelligent-label f-fl">
+                                <b class="ftx04">*</b>验证码：</span>
+                            <div class="f-fl item-ifo">
+                                <input type="text" maxlength="4" class="txt03 f-r3 f-fl required" tabindex="4" style="width:167px" id="randCode" data-valid="isNonEmpty"
+                                    data-error="验证码不能为空" />
+                                <span class="ie8 icon-close close hide"></span>
+                                <label class="f-size14 c-999 f-fl f-pl10">
+                                    <input type="button" id="checkCode" class="code" style="width:80px" onclick="createCode()">
+                                </label>
+                                <label class="icon-sucessfill blank hide" style="left:380px" id="trueCode"></label>
+                                <label class="focusa">看不清？
+                                    <a href="javascript:;" class="c-blue" onclick="createCode()">换一张</a>
+                                </label>
+                                <label class="focus valid" id="validateCode" style="left:370px"></label>
+                            </div>
+                        </div>
+                        <div class="item col-xs-12" style="height:auto">
+                            <span class="intelligent-label f-fl">&nbsp;</span>
+                            <p class="f-size12 required" data-valid="isChecked" data-error="请先同意乐享用户协议">
+                                <input type="checkbox" checked />
+                                <span class="f-ml5">我已阅读并同意</span>
+                                <a href="javascript:showoutc();" class="protocol">《乐享用户协议》</a>
+                            </p>
+                            <label class="focus valid"></label>
+                        </div>
+                        <div class="item col-xs-12">
+                            <span class="intelligent-label f-fl">&nbsp;</span>
+                            <div class="f-fl item-ifo">
+                                <a href="javascript:;" class="btn btn-blue f-r3" id="btn_part1">下一步</a>
+                            </div>
+                        </div>
+                        <div class="toLogin">
+                            已有帐号？
+                            <a hidefocus="true" href="login.html">直接登录</a>
+                        </div>
+
+                    </div>
+
+                    <div class="part2" style="display:none">
+                        <div class="alert alert-info" style="width:700px" id="sendResult">请填写正确的验证码，完整账户信息验证!</div>
+                        <div class="item col-xs-12 f-mb10" style="height:auto">
+                            <span class="intelligent-label f-fl" id="sendAccount">手机号：</span>
+                            <div class="f-fl item-ifo c-blue" id="accountInfo">
+
+                            </div>
+                        </div>
+                        <div class="item col-xs-12">
+                            <span class="intelligent-label f-fl">
+                                <b class="ftx04">*</b>验证码：</span>
+                            <div class="f-fl item-ifo">
+                                <input type="text" maxlength="6" id="verifyNo" class="txt03 f-r3 f-fl required" tabindex="4" style="width:167px" data-valid="isNonEmpty||isInt"
+                                    data-error="验证码不能为空||请输入6位数字验证码" />
+                                <span class="btn btn-gray f-r3 f-ml5 f-size13" id="time_box" disabled style="width:97px;display:none;">发送验证码</span>
+                                <span class="btn btn-gray f-r3 f-ml5 f-size13" id="verifyYz" style="width:97px;">发送验证码</span>
+                                <span class="ie8 icon-close close hide" style="right:130px"></span>
+                                <label class="icon-sucessfill blank hide" id="sucessRegister"></label>
+                                <label class="focus">
+                                    <span id="sendInfo"></span>
+                                </label>
+                                <label class="focus valid" id="registerCodeResult"></label>
+                            </div>
+                        </div>
+                        <div class="item col-xs-12">
+                            <span class="intelligent-label f-fl">&nbsp;</span>
+                            <div class="f-fl item-ifo">
+                                <a href="javascript:;" class="btn btn-blue f-r3" id="btn_part2">注册</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="part3 text-center" style="display:none">
+                        <h3 id="welcomeInfo"></h3>
+                        <p class="c-666 f-mt30 f-mb50">页面将在
+                            <strong id="times" class="f-size18">10</strong> 秒钟后，跳转到
+                            <a href="index.html" class="c-blue">用户中心</a>
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="m-sPopBg" style="z-index:998;"></div>
+    <div class="m-sPopCon regcon">
+        <div class="m-sPopTitle">
+            <strong>服务协议条款</strong>
+            <b id="sPopClose" class="m-sPopClose" onclick="closeClause()">×</b>
+        </div>
+        <div class="apply_up_content">
+            <pre class="f-r0">
+        <strong style="text-align: center; font-size: 16px">   同意以下服务条款，提交注册信息</strong>
+            1.不得随意造谣，侵犯他人权益
+            2.以任何方式登陆乐享平台，代表无条件接受乐享的约束
+        </pre>
+        </div>
+        <center>
+            <a class="btn btn-blue btn-lg f-size12 b-b0 b-l0 b-t0 b-r0 f-pl50 f-pr50 f-r3" href="javascript:closeClause();">已阅读并同意此条款</a>
+        </center>
+    </div>
+    <script src="../js/global.js"></script>
+    <script>
+        var code; //在全局 定义验证码
+        $(function () {
+            createCode();
+            //第一页的确定按钮
+            $("#btn_part1").click(function () {
+                if (!verifyCheck._click()) return;
+                var inputCode = document.getElementById("randCode").value.toUpperCase();
+
+                if (inputCode != code) {
+                    $("#randCode").val("");
+                    $("#validateCode").html("验证码错误");
+                    $("#trueCode").attr("class", "icon-sucessfill blank hide");
+                    $("#validateCode").attr("class", "focus valid error");
+                    createCode();
+                    return;
+                }
+                var phone = /^1(3\d|5[0-35-9]|8[025-9]|47)\d{8}$/;
+                var email = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
+                var account = document.getElementById("account").value;
+                var accountType = "";
+                var messageType = "";
+                if (phone.test(account) == true) {
+                    accountType = "手机";
+                } else {
+                    accountType = "邮箱";
+                }
+                $("#sendAccount").html(accountType + "：");
+                $("#accountInfo").html(account);
+                $(".part1").hide();
+                $(".part2").show();
+                $(".step li").eq(1).addClass("on");
+
+            });
+            //第二页的确定按钮
+            $("#btn_part2").click(function () {
+                if (!verifyCheck._click()) return;
+                var phone = /^1(3\d|5[0-35-9]|8[025-9]|47)\d{8}$/;
+                var email = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
+                var messageCode = document.getElementById("verifyNo").value;
+                var account = document.getElementById("account").value;
+                var userName = document.getElementById("userName").value;
+                var password = document.getElementById("password").value;
+                var type;
+                if (!phone.test(account)) {
+                    type = 2;
+                } else {
+                    type = 1;
+                }
+                $.getJSON("http://127.0.0.1:8081/tokenController/register.do", {
+                        userName: userName,
+                        account: account,
+                        password: password,
+                        type: type,
+                        code: messageCode
+                    },
+                    function (data) {
+                        if (data.registerId <= 0) {
+                            if (data.registerId == -2) {
+                                $("#verifyNo").val("");
+                                $("#registerCodeResult").html("验证码错误");
+                                $("#sucessRegister").attr("class", "icon-sucessfill blank hide");
+                                $("#registerCodeResult").attr("class", "focus valid error");
+                            } else if (data.registerId == 0) {
+                                $("#sendResult").html("账号已被注册。");
+                            } else if (data.registerId == -1) {
+                                $("#sendResult").html("用户名已被注册。");
+                            }
+                            return;
+                        } else {
+                            setCookie("token", data.registerId, 30 * 60 * 1000);
+                            $("#welcomeInfo").html("恭喜" + account + "，您已注册成功，现在开始您的乐享之旅吧！")
+                            $(".part2").hide();
+                            $(".part3").show();
+                            $(".step li").eq(2).addClass("on");
+                            countdown({
+                                maxTime: 10,
+                                ing: function (c) {
+                                    $("#times").text(c);
+                                },
+                                after: function () {
+                                    window.location.href = "index.html";
+                                }
+                            });
+                        }
+                    }
+                );
+
+            });
+        });
+
+        function showoutc() {
+            $(".m-sPopBg,.m-sPopCon").show();
+        }
+
+        function closeClause() {
+            $(".m-sPopBg,.m-sPopCon").hide();
+        }
+
+        function createCode() {
+            code = new Array();
+            var codeLength = 4; //验证码的长度
+            var checkCode = document.getElementById("checkCode");
+            checkCode.value = "";
+            var selectChar = new Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
+                'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+            for (var i = 0; i < codeLength; i++) {
+                var charIndex = Math.floor(Math.random() * 35);
+                code += selectChar[charIndex];
+            }
+            if (code.length != codeLength) {
+                createCode();
+            }
+            checkCode.value = code;
+        }
+
+        function validate() {
+            var inputCode = document.getElementById("input1").value.toUpperCase();
+            if (inputCode.length <= 0) {
+                alert("请输入验证码！");
+                return false;
+            } else if (inputCode != code) {
+                alert("验证码输入错误！");
+                createCode();
+                return false;
+            } else {
+                alert("成功！");
+                return true;
+            }
+        }
+    </script>
+</body>
+
+</html>

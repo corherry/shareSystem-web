@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>登陆</title>
+    <link href="../css/login.css" rel="stylesheet">
+    <script src="../js/jquery-2.1.4.min.js"></script>
+</head>
+
+<body style="background-color:#f0f6fe; font-family:'微软雅黑';">
+    <div class="container">
+        <div style="background-color: #fff">
+            <div class="header">
+                <!--top-->
+                <div class="left">
+                    <a href="#" class="logo"></a>
+                </div>
+                <div class="right">
+                    <a href="register.html" class="register-button white bigrounded">注册</a>
+                </div>
+            </div>
+        </div>
+        <div class="middle">
+            <div class="content">
+                <div class="left">
+                    <a id="reg-button" class="regBtn" href="register.html"></a>
+                </div>
+                <div class="right">
+                    <div class="righttop">
+                        登录
+                    </div>
+                    <div id="log-form" class="rightmid">
+                        <div class="log-input-container">
+                            <div class="clear" style="font-size:0px;"></div>
+                            <div class="log-line" id="rowCacct">
+                                <div class="log-txt" style="display: block;">乐享账号/邮箱/手机号码</div>
+                                <input id="log-cacct" type="text" autocomplete="off" maxlength="34" class="log-input input2">
+                                <div class="logIco logIcoCacct">&nbsp;</div>
+                            </div>
+                            <div class="log-line" id="rowPwd">
+                                <div id="passwordLabel" class="log-txt">密码</div>
+                                <input id="log-pwd" type="password" autocomplete="new-password" maxlength="20" class="log-input input2">
+                                <div class="logIco logIcoPwd">&nbsp;</div>
+                            </div>
+                        </div>
+                        <div class="goin1">
+                            <a href="javascript:;" onclick="openPassword();">忘记密码？</a>
+                            <br>
+                            <br>
+                        </div>
+                        <br>
+                        <br>
+                        <div id="error" class="worn"></div>
+                        <div id="login-button" class="loginBtn">登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录</div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="foot">
+                    <div class="graw">Copyright
+                        <font style="font-family:'微软雅黑', '黑体', '新宋体 ', 'arial unicode ms '">© </font> 2018 北京理工大学珠海学院、Marjane
+                        <br>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="../js/global.js"></script>
+    <script type="text/javascript">
+        function isMobile(mobile) {
+            var pattern = /^1[3456789]\d{9}$/;
+            return pattern.test(mobile);
+        }
+        var cacct = "";
+        var sacct = "";
+
+        $(function () {
+            var logAcct = $('#log-cacct'),
+                logAcctVal;
+
+
+            $('#log-cacct').focus(function () {
+                checkFocus('log-cacct');
+            }).blur(function () {
+                var acctVal = $(this).val().replace(/\s+/g, '');
+                $(this).val(acctVal);
+                checkFocus('log-cacct');
+            }).keydown(function (event) {
+                checkFocus('log-cacct');
+                if (event.keyCode == 13) {
+                    var acctVal = $(this).val().replace(/\s+/g, '');
+                    $(this).val(acctVal);
+                    login();
+                }
+            }).keyup(function () {
+                checkFocus('log-cacct');
+            })
+
+            $('#log-sacct').focus(function () {
+                checkFocus('log-sacct');
+            }).blur(function () {
+                checkFocus('log-sacct');
+            }).keydown(function (event) {
+                checkFocus('log-sacct');
+                if (event.keyCode == 13) {
+                    login();
+                }
+            }).keyup(function () {
+                checkFocus('log-sacct');
+            })
+
+            $('#log-pwd').focus(function () {
+                checkFocus('log-pwd');
+            }).blur(function () {
+                checkFocus('log-pwd');
+            }).keydown(function (event) {
+                checkFocus('log-pwd');
+                if (event.keyCode == 13) {
+                    login();
+                }
+            }).keyup(function () {
+                checkFocus('log-pwd');
+            })
+
+            $('#log-valid').focus(function () {
+                checkFocus('log-valid');
+            }).blur(function () {
+                checkFocus('log-valid');
+            }).keydown(function (event) {
+                checkFocus('log-valid');
+                if (event.keyCode == 13) {
+                    login();
+                }
+            }).keyup(function () {
+                checkFocus('log-valid');
+            })
+
+           // $('#log-valid-img, #log-refresh-btn').click(changeValidImg)
+            $('#login-button').click(function () {
+                login();
+            });
+            $('#login-button').hover(function () {
+                $(this).addClass("loginBtn-hover");
+            }, function () {
+                $(this).removeClass("loginBtn-hover");
+            });
+            $('#reg-button').hover(function () {
+                $(this).addClass("regBtn-hover");
+            }, function () {
+                $(this).removeClass("regBtn-hover");
+            });
+
+            checkFocus('log-cacct');
+            checkFocus('log-sacct');
+            checkFocus('log-pwd');
+
+            setTimeout(autoFocus, 50);
+        });
+
+        //自动获取输入框焦点
+        function autoFocus() {
+            $('#log-cacct, #log-sacct, #log-pwd').filter(':visible').each(function () {
+                var $this = $(this);
+                if ($this.val() == '') {
+                    $this.focus();
+                    checkFocus($this.attr('id'));
+                    return false;
+                }
+            });
+        }
+
+        function checkFocus(id) {
+            var input = $('#' + id),
+                val = input.val();
+            if (id != "log-pwd") {
+                val = $.trim(val);
+            }
+            $('#log-form').find('input.log-input').removeClass('input1');
+            var txt = input.parent().children('.log-txt');
+            $('.log-txt').removeClass("log-txt-hover");
+            txt.addClass('log-txt-hover');
+            $('.log-line').removeClass("log-line-hover");
+            if (id != "log-valid") {
+                input.parent().addClass("log-line-hover");
+            }
+            if (val == '') {
+                txt.show();
+            } else {
+                txt.hide();
+            }
+
+        }
+
+        function useSacct() {
+            if ($('#staff-login').prop("checked")) {
+                $('#rowCacct .log-txt').text("凡科网帐号");
+                $('#rowSacct').show();
+            } else {
+                $('#rowCacct .log-txt').text("凡科网帐号/邮箱/手机号码");
+                $('#rowSacct').hide();
+            }
+            autoFocus();
+        }
+
+        function login() {
+            var me = $('#login-button');
+            if (me.hasClass('disabled')) {
+                return;
+            }
+
+            var account = $('#log-cacct').val();
+            var password = $('#log-pwd').val();
+            var params = [];
+            if (!account) {
+                showMsg('请输入凡科网帐号');
+                $('#log-cacct').focus();
+                return;
+            }
+            if (!password) {
+                showMsg('请输入密码');
+                $('#log-pwd').focus();
+                return;
+            }
+            params.push('account=' + account);
+            params.push('&password=' + password);
+            me.addClass('disabled').html('正在登录...');
+            showMsg('');
+            $.ajax({
+                url: 'http://127.0.0.1:8081/tokenController/login.do',
+                data: params.join(''),
+                error: function () {
+                    me.removeClass('disabled').html('登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录');
+                    showMsg('服务繁忙，请稍候重试');
+                },
+                success: function (data) {
+                  data = jQuery.parseJSON(data);
+                  if(data.loginId == 0){
+                    me.removeClass('disabled').html('登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录');
+                    showMsg('账号未注册,请先注册');
+                  }else if(data.loginId == -2){
+                    me.removeClass('disabled').html('登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录');
+                    showMsg('密码错误，请重新输入或找回密码');
+                  }else{
+                    setCookie("token", data.loginId, 30 * 60 * 1000);
+                    window.location.href = "index.html";
+                  }
+                }
+            })
+        }
+
+        function showMsg(msg) {
+            $('#error').text(msg).show();
+            if ($.trim(msg) == '' || msg == null) {
+                $('#error').hide();
+            }
+        }
+
+        function openPassword() {
+            var cacct = $('#log-cacct').val();
+            window.open("forgetPassword.html?account=" + cacct, "_blank");
+        }
+    </script>
+</body>
+
+</html>
